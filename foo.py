@@ -22,7 +22,8 @@ v=velo.iloc[:,3]
 plt.figure()
 plt.plot(velo.iloc[2:55,3])
 plt.show()
-
+#%%
+velo
 #%%
 v=velo.iloc[:,3]
 def firstdigit(v2):
@@ -82,15 +83,101 @@ velo_ts = deepcopy(velo)
 
 velo_ts['Date']=time_improved
 del velo_ts['Heure / Time']
-del velo_ts['Vélos depuis le 1er janvier / Grand total']
 
 # %%
 del velo["Vélos depuis le 1er janvier / Grand total"]
 velo.groupby(['Date']).max()
 # %%
+velo_ts = velo_ts.dropna()
+velo_ts =velo_ts.sort_values(['Date'])
+# %%
+velo_ts = velo_ts.set_index(['Date'])
+
+#%%
+velo_raw = pd.read_csv("velo.csv")
+velo=velo_raw.iloc[2:,0:4]
+velo
+# %%
+velo =velo.drop_duplicates('Date')
+
+time_improved = pd.to_datetime(velo['Date'],format='%d/%m/%Y')
+velo['Date'] = time_improved
+# %%
+del velo['Heure / Time']
+velo
+# %%
+velo_ts = velo.set_index(np.arange(len(velo['Date'])))
+# %%
+velo_ts
+
+# %%
+df1 = velo_ts['Vélos depuis le 1er janvier / Grand total'] - velo_ts["""Vélos ce jour / Today's total"""]
+
+# %%
+del df1[0]
+df1.index = np.arange(len(df1))
+df1
+#%%
+from copy import deepcopy
+df2 = deepcopy(df1)
+#%%
+df2
+#%%
+i=1
+while df2[i]>0:
+    df2[i]=df2[i]-df2[0:i].sum()
+    i+=1
+#%%
+df1 = deepcopy(df2)
+#%%
+df1
+#%%
+j=i+1
+df1[j]
+#%%
+df1[i]=566
+#%%
+print(i)
+df1[i]
+#%%
+from copy import deepcopy
+df =deepcopy(df1)
+df
+#%%
+df.iloc[290:300,]
+#%%
+j+=1
+for k in range(j,len(df)):
+    df[k]=df[k]-df[j-1:k].sum()
+#%%
+df[len(df-1)]=velo
+# %%
 velo_ts
 # %%
-
+df
 # %%
-
+velo_ts.iloc[-1,2]
+# %%
+def df_a_day(velo):
+    last_count = velo.iloc[-1,3]
+    velo =velo.drop_duplicates('Date')
+    time_improved = pd.to_datetime(velo['Date'],format='%d/%m/%Y')
+    velo['Date'] = time_improved
+    del velo['Heure / Time']
+    velo_ts = velo.set_index(np.arange(len(velo['Date'])))
+    df1 = velo_ts['Vélos depuis le 1er janvier / Grand total'] - velo_ts["""Vélos ce jour / Today's total"""]
+    del df1[0]
+    df1.index = np.arange(len(df1))
+    i = 1
+    while df1[i] > 0:
+        df1[i] = df1[i] - df1[0:i].sum()
+        i += 1
+    df1[i]=566 #use the real count at 2020-12-31
+    j= i+2
+    for k in range(j,len(df1)):
+        df1[k] = df1[k] - df1[j-1:k].sum()
+    df1[len(df1)] = last_count
+    return df1
+#%%
+df_a_day(velo)
 # %%
