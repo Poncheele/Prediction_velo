@@ -7,6 +7,8 @@ from ipywidgets import interact  # widget manipulation
 
 pd.options.display.max_rows = 50
 from download import download
+import datetime
+from copy import deepcopy
 # %%
 '''
 url = "https://docs.google.com/spreadsheets/d/1ssxsl9AIobDofXFohvwxqCPF0tn6dgXpixhiDzus0iE/edit#gid=59478853"
@@ -107,77 +109,35 @@ del velo['Heure / Time']
 velo
 # %%
 velo_ts = velo.set_index(np.arange(len(velo['Date'])))
-# %%
-velo_ts
-
-# %%
-df1 = velo_ts['Vélos depuis le 1er janvier / Grand total'] - velo_ts["""Vélos ce jour / Today's total"""]
-
-# %%
-del df1[0]
-df1.index = np.arange(len(df1))
-df1
-#%%
-from copy import deepcopy
-df2 = deepcopy(df1)
-#%%
-df2
-#%%
-i=1
-while df2[i]>0:
-    df2[i]=df2[i]-df2[0:i].sum()
-    i+=1
-#%%
-df1 = deepcopy(df2)
-#%%
-df1
-#%%
-j=i+1
-df1[j]
-#%%
-df1[i]=566
-#%%
-print(i)
-df1[i]
-#%%
-from copy import deepcopy
-df =deepcopy(df1)
-df
-#%%
-df.iloc[290:300,]
-#%%
-j+=1
-for k in range(j,len(df)):
-    df[k]=df[k]-df[j-1:k].sum()
-#%%
-df[len(df-1)]=velo
-# %%
-velo_ts
-# %%
-df
-# %%
-velo_ts.iloc[-1,2]
-# %%
-def df_a_day(velo):
-    last_count = velo.iloc[-1,3]
-    velo =velo.drop_duplicates('Date')
-    time_improved = pd.to_datetime(velo['Date'],format='%d/%m/%Y')
-    velo['Date'] = time_improved
-    del velo['Heure / Time']
-    velo_ts = velo.set_index(np.arange(len(velo['Date'])))
-    df1 = velo_ts['Vélos depuis le 1er janvier / Grand total'] - velo_ts["""Vélos ce jour / Today's total"""]
-    del df1[0]
-    df1.index = np.arange(len(df1))
-    i = 1
-    while df1[i] > 0:
-        df1[i] = df1[i] - df1[0:i].sum()
-        i += 1
-    df1[i]=566 #use the real count at 2020-12-31
-    j= i+2
-    for k in range(j,len(df1)):
-        df1[k] = df1[k] - df1[j-1:k].sum()
-    df1[len(df1)] = last_count
-    return df1
+# %
 #%%
 df_a_day(velo)
+# %%
+import prediction_module as pm 
+df = pm.Load_db().save_as_df()
+df_day = pm.df_a_day(df)
+df1 =pm.formatedweek(df_day)
+#%%
+days = ['Monday', 'Tuesday', 'Wednesday',
+        'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+# %%
+df = deepcopy (df1)
+# %%
+sns.set_palette("Paired", n_colors=7)
+fig, ax = plt.subplots(figsize=(10,5))
+df1.groupby(['weekday'])[0].plot()
+ax.legend(labels=days)
+ax.set_xticks = df1.index
+plt.show()
+# %%
+df1 = df1.drop(54)
+# %%
+df1 = df1.drop(0)
+#%%
+df1[df1['weekday']==3]
+# %%
+df_day
+# %%
+df1 =pm.formatedweek(df_day)
 # %%

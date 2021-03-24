@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import datetime
 
 def df_a_day(self):
     last_count = self.iloc[-1,3]
@@ -20,4 +21,19 @@ def df_a_day(self):
     for k in range(j,len(df1)):
         df1[k] = df1[k] - df1[j-1:k].sum()
     df1[len(df1)] = last_count
-    return df1
+    return df1.to_frame()
+
+def formatedweek(df):
+    df.index = pd.date_range(datetime.date(2020,3,12),periods = len(df))
+    df['weekday'] = df.index.weekday
+    df['week'] = df.index.week
+    # set weeks starts from first data don't reset at new year
+    x = [0 for i in range(4) ]
+    for i in range(1,(len(df)-4)//7+1):
+        for j in range(7):
+            x.append(i)
+    for i in range((len(df)-4)%7):
+        x.append(372//7+1)
+    df.index = x
+    df['week'] = x
+    return df
