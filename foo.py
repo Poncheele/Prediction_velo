@@ -117,6 +117,8 @@ import prediction_module as pm
 df = pm.Load_db().save_as_df()
 df_day = pm.df_a_day(df)
 df1 =pm.formatedweek(df_day)
+df1 = df1.drop(54)
+df1 = df1.drop(0)
 #%%
 days = ['Monday', 'Tuesday', 'Wednesday',
         'Thursday', 'Friday', 'Saturday', 'Sunday']
