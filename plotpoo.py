@@ -11,6 +11,7 @@ import geopandas as gpd
 
 # %%
 df2 = pm.Load_db_vis.save_as_df2('Albert 1er')
+df3 = pm.Load_db_vis.save_as_df2('Beracasa')
 # %%
 df2
 # %%
@@ -34,44 +35,14 @@ fig = px.scatter_mapbox(df_car, lat="lat", lon='lon', size="intensity",
 fig.update_layout(mapbox_style="carto-positron")
 fig.show()
 # %%
+df = pd.concat((df2,df3))
 # %%
-import plotly.express as px
-#px.set_mapbox_access_token(open(".mapbox_token").read())
-df = px.data.carshare()
-fig = px.scatter_mapbox(df, lat="centroid_lat", lon="centroid_lon",     color="peak_hour", size="car_hours",
-                  color_continuous_scale=px.colors.cyclical.IceFire, size_max=15, zoom=10)
-fig.update_layout(mapbox_style="carto-positron")
-fig.show()
-# %%
-df
+df = pm.Load_db_vis.save_as_df2('Beracasa')
+
+for i in range(1,len(pm.Load_db_vis.name)):
+    df_temp = pm.Load_db_vis.save_as_df2(pm.Load_db_vis.name[i])  
+    df = pd.concat((df,df_temp))
 # %%
 import plotly.express as px
 
-fig = px.scatter_geo(df, locations="iso_alpha", color="continent",
-                     hover_name="country", size="pop",
-                     animation_frame="year",
-                     projection="natural earth")
-fig.show()
-# %%
-df
-# %%
-import plotly.express as px
-fig = px.scatter_mapbox(df2, lat="lat", lon="lon",    size="intensity",
-                  color_continuous_scale=px.colors.cyclical.IceFire, size_max=15, zoom=10, animation_frame="dateObserved")
-fig.update_layout(mapbox_style="carto-positron")
-fig.show()
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
-#%%
-df = px.data.carshare()
-df
-# %%
-
-# %%
-df2
-
-
-# %%
-import dash
 # %%
