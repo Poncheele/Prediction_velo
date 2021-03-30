@@ -14,6 +14,6 @@ import plotly.express as px
 fig = px.scatter_mapbox(df, lat="lat", lon="lon",    size="intensity", color = 'intensity', range_color= [0,1500],
                   color_continuous_scale=px.colors.diverging.Temps, size_max=20, zoom=12, animation_frame="dateObserved")
 fig.update_layout(mapbox_style="carto-positron", showlegend = True)
-fig.show()
+#fig.show()
 
-fig.write_html("vis.html")
+fig.write_html("./Prediction_velo/vis.html")
