@@ -4,7 +4,7 @@ import prediction_module as pm
 import pandas as pd
 #%%
 import prediction_module as pm 
-df = pm.Load_db().save_as_df()
+df = pm.Load_db_predict().save_as_df()
 #%%
 df
 # %%
@@ -18,4 +18,8 @@ time_improved = pd.to_datetime(df['Date'] +
 
 # Where d = day, m=month, Y=year, H=hour, M=minutes
 time_improved
+# %%
+pm.Load_db_vis()
+# %%
+df = pm.save_as_df2()
 # %%

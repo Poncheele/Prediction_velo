@@ -11,10 +11,10 @@ import datetime
 from copy import deepcopy
 #%%
 import prediction_module as pm 
-df = pm.Load_db().save_as_df()
+df = pm.Load_db_predict().save_as_df()
 df_day = pm.df_a_day(df)
 df1 =pm.formatedweek(df_day)
-df1 = df1.drop(54)
+#df1 = df1.drop(54)
 df1 = df1.drop(0)
 #%%
 df = deepcopy(df1)
@@ -31,7 +31,7 @@ days = ['Monday', 'Tuesday', 'Wednesday',
         'Thursday', 'Friday', 'Saturday', 'Sunday']
 #%%
 #to see if variables are well correled
-pd.plotting.lag_plot(df_fri)
+pd.plotting.lag_plot(df_week)
 # %%
 fig, ax = plt.subplots(figsize=(10,5))
 ax = plt.gca(xlim=(1, len(df)), ylim=(-1.0, 1.0))
@@ -98,7 +98,7 @@ data = data.apply(list)
 # %%
 data_cor = pd.DataFrame()
 # %%
-for i in range(len(days)):
+for i in range(len(days)-2):
        data_cor[days[i]] =  data[i]
 
 # %%
@@ -108,14 +108,13 @@ sns.heatmap(data_cor.iloc[:,:5].corr(), annot=True)
 # %%
 import numpy as np
 from sklearn.linear_model import LinearRegression
-X = np.concatenate((l.astype('int'),m.astype('int')),axis = 1)
-y = np.array(data_cor.iloc[:,4])
+X = data_cor.iloc[:53,1:4]
+y = np.array(data_cor.iloc[:53,4])
 reg = LinearRegression().fit(X, y)
 reg.score(X, y)
-# %%
-X
-# %%
-pd.concat(data_cor.iloc[:,0:4],data_cor.iloc[:,5:7])
+
+#%%
+X = np.concatenate((l.astype('int'),m.astype('int')),axis = 1)
 # %%
 data_cor.iloc[:,5:7]
 # %%
@@ -140,7 +139,7 @@ reg.score(X, y)
 # %%
 
 # %%
-yo = np.array([[1797.0,	1822.0,	1681.0]])
+yo = np.array([[1839.0,	1906.0,	1970.0]])
 reg.predict(yo)
 # %%
 data_cor
