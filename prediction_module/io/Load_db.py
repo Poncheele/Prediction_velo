@@ -14,11 +14,11 @@ class Load_db_predict:
         return df_bikes.iloc[:,0:4].dropna()
 
 class Load_db_vis:
-    urls = url_vis
     name = C_names
+    urls = url_vis
     # Download jsons files and fix them to be opened as DFs
-    def __init__(self, urls, name):
-      i=0
+    def __init__(self, urls = urls , name = name):
+      i = 0
       for url in urls:
         path_target_txt = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "data/compteurs", name[i]+".txt")
         if os.path.isfile(path_target_txt):

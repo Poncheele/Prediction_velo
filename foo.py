@@ -143,3 +143,10 @@ df_day
 # %%
 df1 =pm.formatedweek(df_day)
 # %%
+
+
+#%%
+meteof = pd.read_csv('./prediction_module/data/meteo20.csv')
+# %%
+meteof.sort_values(['DATE'])
+# %%
