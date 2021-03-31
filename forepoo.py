@@ -15,7 +15,7 @@ df = pm.Load_db_predict().save_as_df()
 df_day = pm.df_a_day(df)
 df1 =pm.formatedweek(df_day)
 #df1 = df1.drop(54)
-df1 = df1.drop(0)
+#df1 = df1.drop(0)
 #%%
 df = deepcopy(df1)
 df
@@ -29,23 +29,13 @@ df_week
 #%%
 days = ['Monday', 'Tuesday', 'Wednesday',
         'Thursday', 'Friday', 'Saturday', 'Sunday']
-#%%
-#to see if variables are well correled
-pd.plotting.lag_plot(df_week)
-# %%
-fig, ax = plt.subplots(figsize=(10,5))
-ax = plt.gca(xlim=(1, len(df)), ylim=(-1.0, 1.0))
-pd.plotting.autocorrelation_plot(df)
+
 # %%
 df=deepcopy(df4)
 #%%
 df = df.to_frame()
 # %%
 df4.corr(df4.shift(1))
-# %%
-from statsmodels.tsa.seasonal import seasonal_decompose
-decomposed = seasonal_decompose(df, model='additive')
-x = decomposed.plot()
 # %%
 df['Statio'] = df.diff()
 # %%

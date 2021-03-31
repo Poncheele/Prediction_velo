@@ -23,7 +23,7 @@ fig = px.scatter_mapbox(df, lat="lat", lon="lon", size="intensity",
                         color_continuous_scale=px.colors.diverging.Temps, 
                         size_max=20, zoom=12, animation_frame="dateObserved",
                         hover_name="name")
-fig.update_layout(mapbox_style="carto-positron")
+fig.update_layout(mapbox_style="carto-positron", title="""Montpellier's biking passage a day""")
 
 # Show anim in a server
 # fig.show()
