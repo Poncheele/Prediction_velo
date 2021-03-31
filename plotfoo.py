@@ -24,6 +24,8 @@ fig = px.scatter_mapbox(df, lat="lat", lon="lon", size="intensity",
                         size_max=20, zoom=12, animation_frame="dateObserved",
                         hover_name="name")
 fig.update_layout(mapbox_style="carto-positron")
-fig.show()
 
-#fig.write_html("vis.html")
+# Show anim in a server
+# fig.show()
+
+fig.write_html("./Prediction_velo/index.html")
