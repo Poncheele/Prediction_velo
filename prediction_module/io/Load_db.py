@@ -48,6 +48,7 @@ class Load_db_vis:
 
     @staticmethod
     def save_as_df2(name):
+        # return the df well formated for scattermapbox
         path_target2 = os.path.join(os.path.dirname(
                                     os.path.realpath(__file__)), "..",
                                     "data/compteurs",

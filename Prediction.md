@@ -21,7 +21,7 @@ df = pmd.Load_db_predict().save_as_df()
 ```
 
 
-![](data.png)
+<img src="data.png" alt="drawing" width="400"/>
 
 We got a column with the sum of bike passing since first day, and a column with the bike passing between the hour and 00:01 AM. 
 The data is a time series with irregular steps. To make it regular, we will work with the bike passing a day. For this we use the methode **df_a_day**
@@ -31,7 +31,7 @@ df_day = pmd.df_a_day(df).iloc[:-1, ] # (using completed days)
 ```
 Let's plot it to have an idea of the series
 
-![](plot.svg)
+<img src="plot.svg" alt="drawing" width="590"/>
 
 
 We can see that the series as seasonality, each week we have kind of same pattern.
@@ -64,7 +64,7 @@ fitted, confint = smodel.predict(n_periods=n_periods, return_conf_int=True)
 ```
 **fitted** is now a list of our predictions (April 1st and 2nd). Those prediction are for a total day passing, we want the bike passing between 00:01 AM and 09:00 AM, on the plot we could see that in the past last days the number of bike are quite simalar let's have a look. 
 
-![](9.png)
+<img src="9.png" alt="drawing" width="180"/>
 
 To make our prediction on the good interval, we will look at the median of the proportion between 9 o'clock bike's number and full day. Then apply it a little malus (often statement are made past 9) 
 

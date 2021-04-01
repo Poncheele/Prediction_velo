@@ -1,4 +1,3 @@
-#%%
 import prediction_module as pmd
 import pmdarima as pm
 import pandas as pd
@@ -33,5 +32,3 @@ prop_9 = [455.0/1906.0,	318.0/1970.0, 344.0/1580.0,
           358.0/1696.0, 371.0/1891.0, 364.0/1945.0]
 
 print("My prediction :", round(fitted[1] * np.median(np.array(prop_9) * 0.95)))
-
-# %%
